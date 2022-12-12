@@ -1,13 +1,12 @@
-from flask import Flask, jsonify
-import os
+from flask import Flask, render_template, send_from_directory
 
 app = Flask(__name__)
 
+# Define a route for serving the HTML file
+@app.route("/")
+def hello_world():
+    return render_template("index.html")
 
-@app.route('/')
-def index():
-    return jsonify({"Choo Choo": "Welcome to your Flask app 🚅"})
-
-
-if __name__ == '__main__':
-    app.run(debug=True, port=os.getenv("PORT", default=5000))
+@app.route("/static/<path:path>")
+def serve_static(path):
+    return send_from_directory("static", path)
